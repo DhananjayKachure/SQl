@@ -211,7 +211,90 @@ DROP VIEW [Salary Above 7000];
 DROP TABLE Employee;
 ```
 
+# SQL join
+## 1. Creating a Database
+```sql
+CREATE DATABASE database_name;
+USE database_name;
+```
+
+## 2. Creating a Table
+```sql
+CREATE TABLE Employee (
+    ID INT,
+    EmpName VARCHAR(255),
+    City VARCHAR(255),
+    Salary INT,
+    Dept_ID INT,
+    Manager_ID INT
+);
+
+CREATE TABLE Department (
+    Dept_ID INT PRIMARY KEY,
+    Dept_Name VARCHAR(255)
+);
+
+CREATE TABLE Manager (
+    Manager_ID INT PRIMARY KEY,
+    Manager_Name VARCHAR(255)
+);
+
+CREATE TABLE Projects (
+    Project_ID INT PRIMARY KEY,
+    Team_Member_ID INT,
+    Project_Name VARCHAR(255)
+);
+```
+
+## 3. Inserting Data
+```sql
+INSERT INTO Employee (ID, EmpName, City, Salary, Dept_ID, Manager_ID)
+VALUES (1, 'Tom', 'ABC', 7000, 1, 101);
+
+INSERT INTO Department (Dept_ID, Dept_Name)
+VALUES (1, 'IT');
+
+INSERT INTO Manager (Manager_ID, Manager_Name)
+VALUES (101, 'John Doe');
+
+INSERT INTO Projects (Project_ID, Team_Member_ID, Project_Name)
+VALUES (201, 1, 'Project X');
+```
+
+## 4. Fetching Employee and Department Data
+- **Fetch employees and their departments where both match:**
+```sql
+SELECT e.EmpName, d.Dept_Name
+FROM Employee e
+JOIN Department d ON e.Dept_ID = d.Dept_ID;
+```
+
+- **Fetch all employees and the department they belong to (including unmatched employees):**
+```sql
+SELECT e.EmpName, d.Dept_Name
+FROM Employee e
+LEFT JOIN Department d ON e.Dept_ID = d.Dept_ID;
+```
+
+- **Fetch all departments and their employees (including unmatched departments):**
+```sql
+SELECT e.EmpName, d.Dept_Name
+FROM Employee e
+RIGHT JOIN Department d ON e.Dept_ID = d.Dept_ID;
+```
+
+## 5. Fetching Employee Details with Manager and Projects
+```sql
+SELECT e.EmpName, d.Dept_Name, m.Manager_Name, p.Project_Name
+FROM Employee e
+LEFT JOIN Department d ON e.Dept_ID = d.Dept_ID
+JOIN Manager m ON m.Manager_ID = e.Manager_ID
+LEFT JOIN Projects p ON p.Team_Member_ID = e.ID;
+```
+
 ---
 
 This document serves as a quick reference guide to essential SQL operations, covering database creation, table manipulation, data retrieval, filtering, ordering, aggregation, constraints, stored procedures, indexing, and database management tasks.
+
+
 
